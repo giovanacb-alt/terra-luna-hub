@@ -72,14 +72,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "AETHER · Lunar Colony Resource Control" },
+      { name: "description", content: "Painel de gestão de recursos para colônia lunar — energia, água, oxigênio, alimentos, tripulação, ambiente e alertas em tempo real." },
+      { name: "author", content: "FIAP Global Solution" },
+      { property: "og:title", content: "AETHER · Lunar Colony Resource Control" },
+      { property: "og:description", content: "Sistema de gestão de recursos em tempo real para uma colônia lunar." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
