@@ -159,38 +159,31 @@ function BottomNav() {
 /* ---------- top bar ---------- */
 function TopBar({ now, resources }: { now: Date; resources: Resource[] }) {
   const cycle = 14;
-  const solarPhase = 68;
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
   const time = mounted ? now.toLocaleTimeString("pt-BR", { hour12: false }).slice(0, 5) : "--:--";
   const critical = resources.filter((r) => r.level < 50).length;
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1600px] items-center gap-4 px-4 py-3 lg:px-8">
-        <div className="flex items-center gap-3">
-          <div className="relative grid h-10 w-10 place-items-center rounded-full bg-primary/15 text-primary glow-solar">
-            <Sun className="h-5 w-5" />
-            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 animate-pulse rounded-full bg-success" />
-          </div>
+    <header className="border-b border-border/60">
+      <div className="mx-auto flex max-w-[1600px] items-start justify-between gap-4 px-4 pb-5 pt-7 lg:px-8 lg:pb-7 lg:pt-10">
+        <div className="flex items-start gap-3">
           <div>
-            <h1 className="font-display text-base font-bold leading-none tracking-[0.18em]">LUMIS</h1>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              Gestão da colônia · começa nos dados, termina nas pessoas
+            <h1 className="font-display text-3xl font-bold leading-none tracking-[0.3em] text-primary md:text-4xl">
+              LUMIS
+            </h1>
+            <p className="mt-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground md:text-xs">
+              Gestão de recursos · Ciclo {cycle} · {time} UT
             </p>
           </div>
         </div>
 
-        <div className="ml-auto hidden items-center gap-6 md:flex">
-          <Stat label="CICLO" value={`#${cycle}`} mono />
-          <Stat label="FASE SOLAR" value={`${solarPhase}%`} mono />
-          <Stat label="HORÁRIO · UT" value={`${time} UT`} mono />
-          <Stat label="HABITAT" value="Shackleton-South" />
-          <div className="pill flex items-center gap-2">
-            <CircleDot className={`h-3.5 w-3.5 ${critical > 0 ? "text-warning" : "text-success"} animate-pulse`} />
-            <span className="text-xs font-medium">
-              {critical > 0 ? `${critical} recurso(s) em atenção` : "Todos os módulos operacionais"}
-            </span>
-          </div>
+        <div className="flex flex-col items-end gap-1.5">
+          <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground md:text-[11px]">
+            Status geral
+          </span>
+          <span className={`font-display text-lg font-semibold md:text-xl ${critical > 0 ? "text-warning" : "text-success"}`}>
+            {critical > 0 ? "Atenção" : "Estável"}
+          </span>
         </div>
       </div>
     </header>
