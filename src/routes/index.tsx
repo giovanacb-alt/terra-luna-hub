@@ -460,7 +460,7 @@ function CommsPanel({ tick }: { tick: number }) {
   return (
     <div className="panel flex h-full flex-col p-5">
       <PanelHeader icon={Radio} title="Comunicações satelitais" right={<span className="font-mono-tight text-[11px] text-primary">RTT Terra · {latency.toFixed(2)}s</span>} />
-      <ul className="mt-3 space-y-2.5">
+      <ul className="mt-3 flex flex-1 flex-col justify-between gap-2.5">
         {links.map((l) => (
           <li key={l.name} className="rounded-md border border-border bg-background/40 p-3">
             <div className="flex items-center justify-between">
