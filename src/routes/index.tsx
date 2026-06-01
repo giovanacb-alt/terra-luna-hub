@@ -82,8 +82,7 @@ function Dashboard() {
   ], [tick]);
 
   return (
-    <div className="min-h-screen text-foreground lg:pl-[72px]">
-      <SideRail />
+    <div className="min-h-screen text-foreground">
       <TopBar now={now} resources={resources} />
       <main className="mx-auto max-w-[1600px] px-4 pb-28 pt-6 lg:px-8 lg:pb-16">
         <Hero />
@@ -111,7 +110,6 @@ function Dashboard() {
         <EarthAnalogFooter />
       </main>
       <BottomNav />
-      <FabAction />
     </div>
   );
 }
