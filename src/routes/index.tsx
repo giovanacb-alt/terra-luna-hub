@@ -363,13 +363,13 @@ function EnvironmentPanel({ tick }: { tick: number }) {
   const solarFlux = clamp(72 + Math.sin(tick / 4) * 8, 0, 100);
 
   return (
-    <div className="panel relative overflow-hidden p-5">
+    <div className="panel relative flex h-full flex-col overflow-hidden p-5">
       <PanelHeader icon={Satellite} title="Ambiente externo" right={<span className="font-mono-tight text-[10px] uppercase tracking-wider text-muted-foreground">Cratera Shackleton · 89.9°S</span>} />
-      <div className="mt-4 grid grid-cols-2 gap-3">
+      <div className="mt-4 grid flex-1 grid-cols-2 grid-rows-2 gap-3">
         <Gauge1 label="Radiação solar" value={radiation} unit="µSv/h" icon={Radiation} threshold={70} color="oklch(0.74 0.18 320)" />
         <Gauge1 label="Fluxo solar" value={solarFlux} unit="%" icon={Sun} threshold={20} invert color="oklch(0.82 0.17 85)" />
         <Gauge1 label="Poeira regolítica" value={dust} unit="%" icon={Wind} threshold={60} color="oklch(0.82 0.16 195)" />
-        <div className="rounded-md border border-border bg-background/40 p-3">
+        <div className="flex flex-col rounded-md border border-border bg-background/40 p-3">
           <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-muted-foreground">
             <Thermometer className="h-3.5 w-3.5" /> Temperatura externa
           </div>
@@ -387,11 +387,11 @@ function Gauge1({ label, value, unit, icon: Icon, threshold, color, invert }: {
 }) {
   const bad = invert ? value < threshold : value > threshold;
   return (
-    <div className="rounded-md border border-border bg-background/40 p-3">
+    <div className="flex h-full flex-col rounded-md border border-border bg-background/40 p-3">
       <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-muted-foreground">
         <Icon className="h-3.5 w-3.5" /> {label}
       </div>
-      <div className="mt-1 flex items-end gap-2">
+      <div className="mt-1 flex flex-1 items-end gap-2">
         <p className="font-mono-tight text-2xl font-semibold tabular-nums" style={{ color }}>
           {value.toFixed(0)}<span className="ml-0.5 text-xs text-muted-foreground">{unit}</span>
         </p>
@@ -416,9 +416,9 @@ const crew = [
 
 function CrewPanel() {
   return (
-    <div className="panel p-5">
+    <div className="panel flex h-full flex-col p-5">
       <PanelHeader icon={Users} title="Tripulação ativa" right={<span className="text-[11px] text-muted-foreground">6 de 42 em turno · 2 em EVA</span>} />
-      <ul className="mt-3 divide-y divide-border">
+      <ul className="mt-3 flex flex-1 flex-col justify-between divide-y divide-border">
         {crew.map((c) => (
           <li key={c.name} className="flex items-center justify-between gap-3 py-2.5">
             <div className="flex items-center gap-3">
@@ -458,9 +458,9 @@ function CommsPanel({ tick }: { tick: number }) {
     { name: "Rover Selene-3 (EVA)", band: "UHF", strength: 88, kind: "Local" },
   ];
   return (
-    <div className="panel p-5">
+    <div className="panel flex h-full flex-col p-5">
       <PanelHeader icon={Radio} title="Comunicações satelitais" right={<span className="font-mono-tight text-[11px] text-primary">RTT Terra · {latency.toFixed(2)}s</span>} />
-      <ul className="mt-3 space-y-2.5">
+      <ul className="mt-3 flex flex-1 flex-col justify-between gap-2.5">
         {links.map((l) => (
           <li key={l.name} className="rounded-md border border-border bg-background/40 p-3">
             <div className="flex items-center justify-between">
@@ -493,9 +493,9 @@ function LifeSupportPanel({ resources }: { resources: Resource[] }) {
   }));
   const avg = resources.reduce((a, r) => a + r.level, 0) / resources.length;
   return (
-    <div className="panel relative overflow-hidden p-5">
+    <div className="panel relative flex h-full flex-col overflow-hidden p-5">
       <PanelHeader icon={Shield} title="Suporte à vida · síntese" right={<span className="text-[11px] text-muted-foreground">ECLSS v4.2</span>} />
-      <div className="relative mt-2 h-64">
+      <div className="relative mt-2 h-64 flex-1">
         <ResponsiveContainer width="100%" height="100%">
           <RadialBarChart innerRadius="62%" outerRadius="100%" data={data} startAngle={90} endAngle={-270} barSize={10}>
             <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
