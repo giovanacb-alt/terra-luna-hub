@@ -82,9 +82,10 @@ function Dashboard() {
   ], [tick]);
 
   return (
-    <div className="min-h-screen text-foreground">
+    <div className="min-h-screen text-foreground lg:pl-[72px]">
+      <SideRail />
       <TopBar now={now} resources={resources} />
-      <main className="mx-auto max-w-[1600px] px-4 pb-16 pt-6 lg:px-8">
+      <main className="mx-auto max-w-[1600px] px-4 pb-28 pt-6 lg:px-8 lg:pb-16">
         <Hero />
         <section className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {resources.map((r) => <ResourceCard key={r.key} r={r} />)}
@@ -109,7 +110,104 @@ function Dashboard() {
 
         <EarthAnalogFooter />
       </main>
+      <BottomNav />
+      <FabAction />
     </div>
+  );
+}
+
+/* ---------- app shell: side rail (desktop) ---------- */
+function SideRail() {
+  const items = [
+    { icon: Home, label: "Início", active: true },
+    { icon: BarChart3, label: "Métricas" },
+    { icon: Bell, label: "Alertas", badge: 3 },
+    { icon: Users, label: "Tripulação" },
+    { icon: Settings, label: "Ajustes" },
+  ];
+  return (
+    <aside className="fixed inset-y-0 left-0 z-40 hidden w-[72px] flex-col items-center gap-2 border-r border-border bg-background/70 py-4 backdrop-blur-xl lg:flex">
+      <div className="mb-2 grid h-10 w-10 place-items-center rounded-2xl bg-primary/15 text-primary glow-solar">
+        <Sun className="h-5 w-5" />
+      </div>
+      <nav className="mt-2 flex flex-col gap-1.5">
+        {items.map((it) => {
+          const Icon = it.icon;
+          return (
+            <button
+              key={it.label}
+              title={it.label}
+              className={`group relative grid h-11 w-11 place-items-center rounded-xl border transition-colors ${
+                it.active
+                  ? "border-primary/40 bg-primary/15 text-primary"
+                  : "border-transparent text-muted-foreground hover:border-border hover:bg-card/60 hover:text-foreground"
+              }`}
+            >
+              <Icon className="h-[18px] w-[18px]" />
+              {it.badge ? (
+                <span className="absolute -right-0.5 -top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-destructive px-1 text-[9px] font-bold text-destructive-foreground">
+                  {it.badge}
+                </span>
+              ) : null}
+            </button>
+          );
+        })}
+      </nav>
+    </aside>
+  );
+}
+
+/* ---------- app shell: bottom tab bar (mobile) ---------- */
+function BottomNav() {
+  const items = [
+    { icon: Home, label: "Início", active: true },
+    { icon: BarChart3, label: "Métricas" },
+    { icon: Bell, label: "Alertas", badge: 3 },
+    { icon: Users, label: "Equipe" },
+    { icon: Settings, label: "Ajustes" },
+  ];
+  return (
+    <nav className="fixed inset-x-0 bottom-0 z-40 lg:hidden">
+      <div className="pointer-events-none absolute inset-x-0 -top-6 h-6 bg-gradient-to-t from-background to-transparent" />
+      <div className="mx-3 mb-3 rounded-2xl border border-border bg-background/85 px-2 py-1.5 backdrop-blur-xl shadow-[0_20px_40px_-20px_oklch(0_0_0/65%)]">
+        <ul className="grid grid-cols-5">
+          {items.map((it) => {
+            const Icon = it.icon;
+            return (
+              <li key={it.label}>
+                <button
+                  className={`relative mx-auto flex w-full flex-col items-center gap-0.5 rounded-xl px-2 py-1.5 ${
+                    it.active ? "text-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  <span className={`grid h-7 w-7 place-items-center rounded-lg ${it.active ? "bg-primary/15" : ""}`}>
+                    <Icon className="h-[18px] w-[18px]" />
+                    {it.badge ? (
+                      <span className="absolute right-3 top-0.5 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-destructive px-1 text-[9px] font-bold text-destructive-foreground">
+                        {it.badge}
+                      </span>
+                    ) : null}
+                  </span>
+                  <span className="text-[10px] font-medium tracking-wide">{it.label}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </nav>
+  );
+}
+
+/* ---------- floating action button ---------- */
+function FabAction() {
+  return (
+    <button
+      title="Nova ordem"
+      className="fixed bottom-24 right-4 z-40 grid h-12 w-12 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_12px_32px_-8px_oklch(0.735_0.135_80/55%)] glow-solar transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:right-6 lg:h-14 lg:w-14"
+    >
+      <Plus className="h-5 w-5 lg:h-6 lg:w-6" />
+    </button>
   );
 }
 
