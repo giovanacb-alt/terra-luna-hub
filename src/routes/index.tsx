@@ -418,7 +418,7 @@ function CrewPanel() {
   return (
     <div className="panel flex h-full flex-col p-5">
       <PanelHeader icon={Users} title="Tripulação ativa" right={<span className="text-[11px] text-muted-foreground">6 de 42 em turno · 2 em EVA</span>} />
-      <ul className="mt-3 divide-y divide-border">
+      <ul className="mt-3 flex flex-1 flex-col justify-between divide-y divide-border">
         {crew.map((c) => (
           <li key={c.name} className="flex items-center justify-between gap-3 py-2.5">
             <div className="flex items-center gap-3">
