@@ -490,24 +490,37 @@ function LifeSupportPanel({ resources }: { resources: Resource[] }) {
   return (
     <div className="panel relative overflow-hidden p-5">
       <PanelHeader icon={Shield} title="Suporte à vida · síntese" right={<span className="text-[11px] text-muted-foreground">ECLSS v4.2</span>} />
-      <div className="relative mt-2 h-56">
+      <div className="relative mt-2 h-64">
         <ResponsiveContainer width="100%" height="100%">
-          <RadialBarChart innerRadius="35%" outerRadius="100%" data={data} startAngle={90} endAngle={-270}>
+          <RadialBarChart innerRadius="62%" outerRadius="100%" data={data} startAngle={90} endAngle={-270} barSize={10}>
             <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
-            <RadialBar background={{ fill: "oklch(1 0 0 / 5%)" }} dataKey="value" cornerRadius={8} />
+            <RadialBar background={{ fill: "oklch(1 0 0 / 5%)" }} dataKey="value" cornerRadius={999} />
             <Tooltip
-              contentStyle={{ background: "oklch(0.18 0.028 252)", border: "1px solid oklch(0.32 0.035 255)", borderRadius: 8, fontSize: 12 }}
+              contentStyle={{ background: "oklch(0.22 0.018 258)", border: "1px solid oklch(0.47 0.045 265 / 50%)", borderRadius: 12, fontSize: 12 }}
               formatter={(v: number, n: string) => [`${v.toFixed(1)}%`, n]}
             />
           </RadialBarChart>
         </ResponsiveContainer>
         <div className="pointer-events-none absolute inset-0 grid place-items-center">
-          <div className="text-center">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Índice composto</p>
-            <p className="font-mono-tight text-3xl font-semibold tabular-nums">{avg.toFixed(0)}<span className="text-base text-muted-foreground">/100</span></p>
-            <p className="text-[11px] text-success">Operação sustentável</p>
+          <div className="grid h-32 w-32 place-items-center rounded-full bg-background/85 ring-1 ring-border backdrop-blur-sm">
+            <div className="text-center">
+              <p className="text-[9px] uppercase tracking-[0.18em] text-muted-foreground">Índice</p>
+              <p className="font-display text-3xl font-semibold tabular-nums leading-none">
+                {avg.toFixed(0)}
+                <span className="text-sm text-muted-foreground">/100</span>
+              </p>
+              <p className="mt-1 text-[10px] text-success">Sustentável</p>
+            </div>
           </div>
         </div>
+      </div>
+      <div className="mt-3 grid grid-cols-4 gap-2">
+        {data.map((d) => (
+          <div key={d.name} className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+            <span className="h-2 w-2 rounded-full" style={{ background: d.fill }} />
+            <span className="truncate">{d.name}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
