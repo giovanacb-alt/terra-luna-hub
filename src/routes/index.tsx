@@ -495,7 +495,7 @@ function LifeSupportPanel({ resources }: { resources: Resource[] }) {
   return (
     <div className="panel relative flex h-full flex-col overflow-hidden p-5">
       <PanelHeader icon={Shield} title="Suporte à vida · síntese" right={<span className="text-[11px] text-muted-foreground">ECLSS v4.2</span>} />
-      <div className="relative mt-2 h-64">
+      <div className="relative mt-2 h-64 flex-1">
         <ResponsiveContainer width="100%" height="100%">
           <RadialBarChart innerRadius="62%" outerRadius="100%" data={data} startAngle={90} endAngle={-270} barSize={10}>
             <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
