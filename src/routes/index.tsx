@@ -363,13 +363,13 @@ function EnvironmentPanel({ tick }: { tick: number }) {
   const solarFlux = clamp(72 + Math.sin(tick / 4) * 8, 0, 100);
 
   return (
-    <div className="panel relative overflow-hidden p-5">
+    <div className="panel relative flex h-full flex-col overflow-hidden p-5">
       <PanelHeader icon={Satellite} title="Ambiente externo" right={<span className="font-mono-tight text-[10px] uppercase tracking-wider text-muted-foreground">Cratera Shackleton · 89.9°S</span>} />
-      <div className="mt-4 grid grid-cols-2 gap-3">
+      <div className="mt-4 grid flex-1 grid-cols-2 grid-rows-2 gap-3">
         <Gauge1 label="Radiação solar" value={radiation} unit="µSv/h" icon={Radiation} threshold={70} color="oklch(0.74 0.18 320)" />
         <Gauge1 label="Fluxo solar" value={solarFlux} unit="%" icon={Sun} threshold={20} invert color="oklch(0.82 0.17 85)" />
         <Gauge1 label="Poeira regolítica" value={dust} unit="%" icon={Wind} threshold={60} color="oklch(0.82 0.16 195)" />
-        <div className="rounded-md border border-border bg-background/40 p-3">
+        <div className="flex flex-col rounded-md border border-border bg-background/40 p-3">
           <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-muted-foreground">
             <Thermometer className="h-3.5 w-3.5" /> Temperatura externa
           </div>
