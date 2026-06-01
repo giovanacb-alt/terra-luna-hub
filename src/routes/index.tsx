@@ -35,10 +35,13 @@ interface Resource {
 
 /* ---------- main component ---------- */
 function Dashboard() {
-  const [now, setNow] = useState(() => new Date());
+  const [now, setNow] = useState(() => new Date(0));
   const [tick, setTick] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    setNow(new Date());
     const id = setInterval(() => {
       setNow(new Date());
       setTick((t) => t + 1);
@@ -46,9 +49,9 @@ function Dashboard() {
     return () => clearInterval(id);
   }, []);
 
-  // simulated live drift
+  // simulated live drift — only after mount to avoid SSR/CSR hydration mismatch
   const drift = (seed: number, amp = 1) =>
-    Math.sin((tick + seed) / 6) * amp + (Math.random() - 0.5) * amp * 0.4;
+    mounted ? Math.sin((tick + seed) / 6) * amp + (Math.random() - 0.5) * amp * 0.4 : 0;
 
   const resources: Resource[] = useMemo(() => [
     {
@@ -542,9 +545,9 @@ function AlertsPanel() {
                               l === "warn" ? "text-warning bg-warning/15" :
                               l === "ok" ? "text-success bg-success/15" : "text-primary bg-primary/15";
   return (
-    <div className="panel p-5">
+    <div className="panel flex h-[520px] flex-col p-5">
       <PanelHeader icon={AlertTriangle} title="Alertas & eventos" right={<span className="text-[11px] text-muted-foreground">Últimas 8h</span>} />
-      <ul className="mt-3 space-y-2">
+      <ul className="mt-3 flex-1 space-y-2 overflow-y-auto pr-1">
         {alerts.map((a) => (
           <li key={a.title} className="rounded-md border border-border bg-background/40 p-3">
             <div className="flex items-center justify-between">
@@ -576,9 +579,9 @@ const maint = [
 
 function MaintenancePanel() {
   return (
-    <div className="panel p-5">
+    <div className="panel flex h-[520px] flex-col p-5">
       <PanelHeader icon={Wrench} title="Manutenção preditiva" right={<span className="text-[11px] text-muted-foreground">5 ordens ativas</span>} />
-      <ul className="mt-3 space-y-2.5">
+      <ul className="mt-3 flex-1 space-y-2.5 overflow-y-auto pr-1">
         {maint.map((m) => (
           <li key={m.sys} className="rounded-md border border-border bg-background/40 p-3">
             <div className="flex items-center justify-between">
@@ -617,9 +620,9 @@ const items = [
 
 function LogisticsPanel() {
   return (
-    <div className="panel p-5">
+    <div className="panel flex h-[520px] flex-col p-5">
       <PanelHeader icon={Package} title="Logística & suprimentos" right={<span className="text-[11px] text-muted-foreground">Próx. carga: SOL 438</span>} />
-      <ul className="mt-3 space-y-2">
+      <ul className="mt-3 flex-1 space-y-3 overflow-y-auto pr-1">
         {items.map((it) => {
           const pct = (it.qty / it.max) * 100;
           const low = pct < 35;
