@@ -176,9 +176,4 @@
   /* scroll invisível mas funcional */
   .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
   .no-scrollbar::-webkit-scrollbar { width: 0; height: 0; display: none; }
-
-    box-shadow:
-      0 0 0 1px oklch(0.735 0.135 80 / 35%),
-      0 0 36px oklch(0.735 0.135 80 / 25%);
-  }
 }
