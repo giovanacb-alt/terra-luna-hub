@@ -82,8 +82,7 @@ function Dashboard() {
   ], [tick]);
 
   return (
-    <div className="min-h-screen text-foreground lg:pl-[72px]">
-      <SideRail />
+    <div className="min-h-screen text-foreground">
       <TopBar now={now} resources={resources} />
       <main className="mx-auto max-w-[1600px] px-4 pb-28 pt-6 lg:px-8 lg:pb-16">
         <Hero />
@@ -111,49 +110,7 @@ function Dashboard() {
         <EarthAnalogFooter />
       </main>
       <BottomNav />
-      <FabAction />
     </div>
-  );
-}
-
-/* ---------- app shell: side rail (desktop) ---------- */
-function SideRail() {
-  const items = [
-    { icon: Home, label: "Início", active: true },
-    { icon: BarChart3, label: "Métricas" },
-    { icon: Bell, label: "Alertas", badge: 3 },
-    { icon: Users, label: "Tripulação" },
-    { icon: Settings, label: "Ajustes" },
-  ];
-  return (
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-[72px] flex-col items-center gap-2 border-r border-border bg-background/70 py-4 backdrop-blur-xl lg:flex">
-      <div className="mb-2 grid h-10 w-10 place-items-center rounded-2xl bg-primary/15 text-primary glow-solar">
-        <Sun className="h-5 w-5" />
-      </div>
-      <nav className="mt-2 flex flex-col gap-1.5">
-        {items.map((it) => {
-          const Icon = it.icon;
-          return (
-            <button
-              key={it.label}
-              title={it.label}
-              className={`group relative grid h-11 w-11 place-items-center rounded-xl border transition-colors ${
-                it.active
-                  ? "border-primary/40 bg-primary/15 text-primary"
-                  : "border-transparent text-muted-foreground hover:border-border hover:bg-card/60 hover:text-foreground"
-              }`}
-            >
-              <Icon className="h-[18px] w-[18px]" />
-              {it.badge ? (
-                <span className="absolute -right-0.5 -top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-destructive px-1 text-[9px] font-bold text-destructive-foreground">
-                  {it.badge}
-                </span>
-              ) : null}
-            </button>
-          );
-        })}
-      </nav>
-    </aside>
   );
 }
 
@@ -199,53 +156,34 @@ function BottomNav() {
   );
 }
 
-/* ---------- floating action button ---------- */
-function FabAction() {
-  return (
-    <button
-      title="Nova ordem"
-      className="fixed bottom-24 right-4 z-40 grid h-12 w-12 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_12px_32px_-8px_oklch(0.735_0.135_80/55%)] glow-solar transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:right-6 lg:h-14 lg:w-14"
-    >
-      <Plus className="h-5 w-5 lg:h-6 lg:w-6" />
-    </button>
-  );
-}
-
 /* ---------- top bar ---------- */
 function TopBar({ now, resources }: { now: Date; resources: Resource[] }) {
   const cycle = 14;
-  const solarPhase = 68;
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
   const time = mounted ? now.toLocaleTimeString("pt-BR", { hour12: false }).slice(0, 5) : "--:--";
   const critical = resources.filter((r) => r.level < 50).length;
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1600px] items-center gap-4 px-4 py-3 lg:px-8">
-        <div className="flex items-center gap-3">
-          <div className="relative grid h-10 w-10 place-items-center rounded-full bg-primary/15 text-primary glow-solar">
-            <Sun className="h-5 w-5" />
-            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 animate-pulse rounded-full bg-success" />
-          </div>
+    <header className="border-b border-border/60">
+      <div className="mx-auto flex max-w-[1600px] items-start justify-between gap-4 px-4 pb-5 pt-7 lg:px-8 lg:pb-7 lg:pt-10">
+        <div className="flex items-start gap-3">
           <div>
-            <h1 className="font-display text-base font-bold leading-none tracking-[0.18em]">LUMIS</h1>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              Gestão da colônia · começa nos dados, termina nas pessoas
+            <h1 className="font-display text-3xl font-bold leading-none tracking-[0.3em] text-primary md:text-4xl">
+              LUMIS
+            </h1>
+            <p className="mt-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground md:text-xs">
+              Gestão de recursos · Ciclo {cycle} · {time} UT
             </p>
           </div>
         </div>
 
-        <div className="ml-auto hidden items-center gap-6 md:flex">
-          <Stat label="CICLO" value={`#${cycle}`} mono />
-          <Stat label="FASE SOLAR" value={`${solarPhase}%`} mono />
-          <Stat label="HORÁRIO · UT" value={`${time} UT`} mono />
-          <Stat label="HABITAT" value="Shackleton-South" />
-          <div className="pill flex items-center gap-2">
-            <CircleDot className={`h-3.5 w-3.5 ${critical > 0 ? "text-warning" : "text-success"} animate-pulse`} />
-            <span className="text-xs font-medium">
-              {critical > 0 ? `${critical} recurso(s) em atenção` : "Todos os módulos operacionais"}
-            </span>
-          </div>
+        <div className="flex flex-col items-end gap-1.5">
+          <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground md:text-[11px]">
+            Status geral
+          </span>
+          <span className={`font-display text-lg font-semibold md:text-xl ${critical > 0 ? "text-warning" : "text-success"}`}>
+            {critical > 0 ? "Atenção" : "Estável"}
+          </span>
         </div>
       </div>
     </header>
