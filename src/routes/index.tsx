@@ -52,28 +52,28 @@ function Dashboard() {
 
   const resources: Resource[] = useMemo(() => [
     {
-      key: "energy", label: "Energia", unit: "kWh",
+      key: "energy", label: "Energia solar", unit: "kWh",
       level: clamp(78 + drift(1, 3)), capacity: 12000,
       consumption: 4820, production: 5240, autonomyDays: 12.4,
-      trend: 0.4, icon: Zap, accent: "text-[oklch(0.82_0.17_85)]", bg: "from-[oklch(0.82_0.17_85/.18)] to-transparent",
+      trend: 0.4, icon: Zap, accent: "text-energy", bg: "from-[oklch(0.89_0.13_95/.18)] to-transparent",
     },
     {
       key: "water", label: "Água", unit: "L",
       level: clamp(64 + drift(2, 2)), capacity: 48000,
       consumption: 1180, production: 940, autonomyDays: 27.0,
-      trend: -0.3, icon: Droplets, accent: "text-[oklch(0.82_0.16_220)]", bg: "from-[oklch(0.82_0.16_220/.18)] to-transparent",
+      trend: -0.3, icon: Droplets, accent: "text-water", bg: "from-[oklch(0.71_0.11_240/.18)] to-transparent",
     },
     {
       key: "oxygen", label: "Oxigênio", unit: "kg",
       level: clamp(91 + drift(3, 1.5)), capacity: 3200,
       consumption: 86, production: 88, autonomyDays: 33.7,
-      trend: 0.1, icon: Wind, accent: "text-[oklch(0.82_0.16_195)]", bg: "from-[oklch(0.82_0.16_195/.2)] to-transparent",
+      trend: 0.1, icon: Wind, accent: "text-oxygen", bg: "from-[oklch(0.81_0.09_180/.20)] to-transparent",
     },
     {
       key: "food", label: "Alimentos", unit: "kcal·k",
       level: clamp(42 + drift(4, 1.2)), capacity: 9600,
       consumption: 168, production: 102, autonomyDays: 22.1,
-      trend: -0.6, icon: Apple, accent: "text-[oklch(0.78_0.17_145)]", bg: "from-[oklch(0.78_0.17_145/.18)] to-transparent",
+      trend: -0.6, icon: Apple, accent: "text-food", bg: "from-[oklch(0.70_0.12_140/.18)] to-transparent",
     },
   ], [tick]);
 
@@ -111,34 +111,35 @@ function Dashboard() {
 
 /* ---------- top bar ---------- */
 function TopBar({ now, resources }: { now: Date; resources: Resource[] }) {
-  const missionSol = 412;
-  const time = now.toLocaleTimeString("pt-BR", { hour12: false });
+  const cycle = 14;
+  const solarPhase = 68;
+  const time = now.toLocaleTimeString("pt-BR", { hour12: false }).slice(0, 5);
   const critical = resources.filter((r) => r.level < 50).length;
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex max-w-[1600px] items-center gap-4 px-4 py-3 lg:px-8">
         <div className="flex items-center gap-3">
-          <div className="relative grid h-9 w-9 place-items-center rounded-md bg-primary/15 text-primary glow-cyan">
-            <Moon className="h-5 w-5" />
+          <div className="relative grid h-10 w-10 place-items-center rounded-full bg-primary/15 text-primary glow-solar">
+            <Sun className="h-5 w-5" />
             <span className="absolute -right-0.5 -top-0.5 h-2 w-2 animate-pulse rounded-full bg-success" />
           </div>
           <div>
-            <h1 className="text-sm font-semibold leading-none tracking-wider">AETHER</h1>
-            <p className="font-mono-tight text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-              Lunar Colony · Resource Control
+            <h1 className="font-display text-base font-bold leading-none tracking-[0.18em]">LUMIS</h1>
+            <p className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              Gestão da colônia · começa nos dados, termina nas pessoas
             </p>
           </div>
         </div>
 
         <div className="ml-auto hidden items-center gap-6 md:flex">
-          <Stat label="SOL" value={`#${missionSol}`} mono />
-          <Stat label="MCT · UTC" value={time} mono />
-          <Stat label="CICLO" value="DIA LUNAR · 4d 11h" />
+          <Stat label="CICLO" value={`#${cycle}`} mono />
+          <Stat label="FASE SOLAR" value={`${solarPhase}%`} mono />
+          <Stat label="HORÁRIO · UT" value={`${time} UT`} mono />
           <Stat label="HABITAT" value="Shackleton-South" />
-          <div className="flex items-center gap-2 rounded-md border border-border bg-card/60 px-3 py-1.5">
+          <div className="pill flex items-center gap-2">
             <CircleDot className={`h-3.5 w-3.5 ${critical > 0 ? "text-warning" : "text-success"} animate-pulse`} />
             <span className="text-xs font-medium">
-              {critical > 0 ? `${critical} recurso(s) em atenção` : "Sistemas nominais"}
+              {critical > 0 ? `${critical} recurso(s) em atenção` : "Todos os módulos operacionais"}
             </span>
           </div>
         </div>
@@ -160,18 +161,21 @@ function Stat({ label, value, mono }: { label: string; value: string; mono?: boo
 function Hero() {
   return (
     <div className="panel grid-bg relative overflow-hidden p-6 lg:p-8">
-      <div className="absolute inset-y-0 right-0 w-[40%] bg-gradient-to-l from-primary/10 to-transparent" />
+      <div className="absolute inset-y-0 right-0 w-[45%] bg-gradient-to-l from-primary/15 to-transparent" />
+      <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
       <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="font-mono-tight text-xs uppercase tracking-[0.22em] text-primary">
-            // Briefing operacional · 06:00 MCT
+            // Ciclo 14 · Fase solar 68% · 06:22 UT
           </p>
-          <h2 className="mt-2 max-w-3xl text-3xl font-semibold leading-tight tracking-tight md:text-4xl">
-            Toda a colônia respira graças a quatro fluxos. <span className="text-primary">Monitore-os como se a vida dependesse disso</span> — porque depende.
+          <h2 className="mt-3 max-w-3xl font-display text-3xl font-semibold leading-[1.1] tracking-tight md:text-[2.5rem]">
+            Estar a 384 mil km da Terra exige mais do que dados —
+            <span className="text-primary"> exige sentir que você pertence a algum lugar.</span>
           </h2>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-            42 habitantes · 3 módulos pressurizados · 1 estufa hidropônica · 1 reator de fissão modular ·
-            uplink contínuo com Gateway-LOP via banda Ka.
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Lumis é construída na tensão entre dois estados: <span className="text-foreground">carga</span> e
+            <span className="text-foreground"> uso</span>. Tudo depende de quanto sol captamos nas últimas horas.
+            42 habitantes · 3 módulos pressurizados · 1 estufa hidropônica · 1 reator de fissão modular.
           </p>
         </div>
         <div className="grid grid-cols-3 gap-4 lg:gap-8">
@@ -316,10 +320,10 @@ function ConsumptionChart({ className = "" }: { className?: string }) {
               }}
               labelStyle={{ color: "oklch(0.96 0.01 220)" }}
             />
-            <Line type="monotone" dataKey="energia" stroke="oklch(0.82 0.17 85)" strokeWidth={2} dot={false} />
-            <Line type="monotone" dataKey="agua" stroke="oklch(0.82 0.16 220)" strokeWidth={2} dot={false} />
-            <Line type="monotone" dataKey="oxigenio" stroke="oklch(0.82 0.16 195)" strokeWidth={2} dot={false} />
-            <Line type="monotone" dataKey="alimentos" stroke="oklch(0.78 0.17 145)" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="energia" stroke="oklch(0.89 0.13 95)" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="agua" stroke="oklch(0.71 0.11 240)" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="oxigenio" stroke="oklch(0.81 0.09 180)" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="alimentos" stroke="oklch(0.70 0.12 140)" strokeWidth={2} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -329,10 +333,10 @@ function ConsumptionChart({ className = "" }: { className?: string }) {
 
 function Legend() {
   const items = [
-    { c: "oklch(0.82 0.17 85)", l: "Energia" },
-    { c: "oklch(0.82 0.16 220)", l: "Água" },
-    { c: "oklch(0.82 0.16 195)", l: "Oxigênio" },
-    { c: "oklch(0.78 0.17 145)", l: "Alimentos" },
+    { c: "oklch(0.89 0.13 95)", l: "Energia" },
+    { c: "oklch(0.71 0.11 240)", l: "Água" },
+    { c: "oklch(0.81 0.09 180)", l: "Oxigênio" },
+    { c: "oklch(0.70 0.12 140)", l: "Alimentos" },
   ];
   return (
     <div className="flex flex-wrap items-center gap-3">
@@ -477,10 +481,10 @@ function LifeSupportPanel({ resources }: { resources: Resource[] }) {
     name: r.label,
     value: r.level,
     fill:
-      r.key === "energy" ? "oklch(0.82 0.17 85)" :
-      r.key === "water" ? "oklch(0.82 0.16 220)" :
-      r.key === "oxygen" ? "oklch(0.82 0.16 195)" :
-                          "oklch(0.78 0.17 145)",
+      r.key === "energy" ? "oklch(0.89 0.13 95)" :
+      r.key === "water" ? "oklch(0.71 0.11 240)" :
+      r.key === "oxygen" ? "oklch(0.81 0.09 180)" :
+                          "oklch(0.70 0.12 140)",
   }));
   const avg = resources.reduce((a, r) => a + r.level, 0) / resources.length;
   return (
@@ -650,7 +654,7 @@ function EarthAnalogFooter() {
         ))}
       </div>
       <div className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-[11px] text-muted-foreground">
-        <span className="font-mono-tight">AETHER · v0.412 · build {new Date().getFullYear()}</span>
+        <span className="font-mono-tight">LUMIS · ciclo 14 · build {new Date().getFullYear()}</span>
         <span>FIAP Global Solution · Indústria Espacial</span>
       </div>
     </footer>
