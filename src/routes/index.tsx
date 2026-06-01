@@ -547,7 +547,7 @@ function AlertsPanel() {
   return (
     <div className="panel flex h-[300px] flex-col p-5">
       <PanelHeader icon={AlertTriangle} title="Alertas & eventos" right={<span className="text-[11px] text-muted-foreground">Últimas 8h</span>} />
-      <ul className="mt-3 flex-1 space-y-2 overflow-y-auto pr-1">
+      <ul className="mt-3 flex-1 space-y-2 overflow-y-auto no-scrollbar">
         {alerts.map((a) => (
           <li key={a.title} className="rounded-md border border-border bg-background/40 p-3">
             <div className="flex items-center justify-between">
@@ -581,7 +581,7 @@ function MaintenancePanel() {
   return (
     <div className="panel flex h-[300px] flex-col p-5">
       <PanelHeader icon={Wrench} title="Manutenção preditiva" right={<span className="text-[11px] text-muted-foreground">5 ordens ativas</span>} />
-      <ul className="mt-3 flex-1 space-y-2.5 overflow-y-auto pr-1">
+      <ul className="mt-3 flex-1 space-y-2.5 overflow-y-auto no-scrollbar">
         {maint.map((m) => (
           <li key={m.sys} className="rounded-md border border-border bg-background/40 p-3">
             <div className="flex items-center justify-between">
@@ -622,7 +622,7 @@ function LogisticsPanel() {
   return (
     <div className="panel flex h-[300px] flex-col p-5">
       <PanelHeader icon={Package} title="Logística & suprimentos" right={<span className="text-[11px] text-muted-foreground">Próx. carga: SOL 438</span>} />
-      <ul className="mt-3 flex-1 space-y-3 overflow-y-auto pr-1">
+      <ul className="mt-3 flex-1 space-y-3 overflow-y-auto no-scrollbar">
         {items.map((it) => {
           const pct = (it.qty / it.max) * 100;
           const low = pct < 35;
