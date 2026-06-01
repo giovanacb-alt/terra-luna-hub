@@ -357,7 +357,7 @@ function Legend() {
 
 /* ---------- environment ---------- */
 function EnvironmentPanel({ tick }: { tick: number }) {
-  const radiation = clamp(38 + Math.sin(tick / 5) * 6 + Math.random() * 3, 0, 100);
+  const radiation = clamp(38 + Math.sin(tick / 5) * 6 + Math.sin(tick / 1.7) * 1.5, 0, 100);
   const surfaceTemp = -142 + Math.sin(tick / 8) * 6;
   const dust = clamp(12 + Math.sin(tick / 7) * 4, 0, 100);
   const solarFlux = clamp(72 + Math.sin(tick / 4) * 8, 0, 100);
@@ -545,7 +545,7 @@ function AlertsPanel() {
                               l === "warn" ? "text-warning bg-warning/15" :
                               l === "ok" ? "text-success bg-success/15" : "text-primary bg-primary/15";
   return (
-    <div className="panel flex h-[520px] flex-col p-5">
+    <div className="panel flex h-[300px] flex-col p-5">
       <PanelHeader icon={AlertTriangle} title="Alertas & eventos" right={<span className="text-[11px] text-muted-foreground">Últimas 8h</span>} />
       <ul className="mt-3 flex-1 space-y-2 overflow-y-auto pr-1">
         {alerts.map((a) => (
@@ -579,7 +579,7 @@ const maint = [
 
 function MaintenancePanel() {
   return (
-    <div className="panel flex h-[520px] flex-col p-5">
+    <div className="panel flex h-[300px] flex-col p-5">
       <PanelHeader icon={Wrench} title="Manutenção preditiva" right={<span className="text-[11px] text-muted-foreground">5 ordens ativas</span>} />
       <ul className="mt-3 flex-1 space-y-2.5 overflow-y-auto pr-1">
         {maint.map((m) => (
@@ -620,7 +620,7 @@ const items = [
 
 function LogisticsPanel() {
   return (
-    <div className="panel flex h-[520px] flex-col p-5">
+    <div className="panel flex h-[300px] flex-col p-5">
       <PanelHeader icon={Package} title="Logística & suprimentos" right={<span className="text-[11px] text-muted-foreground">Próx. carga: SOL 438</span>} />
       <ul className="mt-3 flex-1 space-y-3 overflow-y-auto pr-1">
         {items.map((it) => {
