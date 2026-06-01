@@ -4,6 +4,7 @@ import {
   Activity, AlertTriangle, Battery, Droplets, Wind, Apple, Radio, Users,
   Thermometer, Sun, Radiation, Wrench, Package, Satellite, Moon, Gauge,
   ArrowUp, ArrowDown, Minus, Shield, CircleDot, Zap,
+  Home, BarChart3, Bell, Settings, Search, Plus,
 } from "lucide-react";
 import {
   Area, AreaChart, CartesianGrid, Line, LineChart, ResponsiveContainer,
