@@ -113,7 +113,9 @@ function Dashboard() {
 function TopBar({ now, resources }: { now: Date; resources: Resource[] }) {
   const cycle = 14;
   const solarPhase = 68;
-  const time = now.toLocaleTimeString("pt-BR", { hour12: false }).slice(0, 5);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  const time = mounted ? now.toLocaleTimeString("pt-BR", { hour12: false }).slice(0, 5) : "--:--";
   const critical = resources.filter((r) => r.level < 50).length;
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/70 backdrop-blur-xl">
