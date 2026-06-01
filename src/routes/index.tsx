@@ -416,7 +416,7 @@ const crew = [
 
 function CrewPanel() {
   return (
-    <div className="panel p-5">
+    <div className="panel flex h-full flex-col p-5">
       <PanelHeader icon={Users} title="Tripulação ativa" right={<span className="text-[11px] text-muted-foreground">6 de 42 em turno · 2 em EVA</span>} />
       <ul className="mt-3 divide-y divide-border">
         {crew.map((c) => (
@@ -458,7 +458,7 @@ function CommsPanel({ tick }: { tick: number }) {
     { name: "Rover Selene-3 (EVA)", band: "UHF", strength: 88, kind: "Local" },
   ];
   return (
-    <div className="panel p-5">
+    <div className="panel flex h-full flex-col p-5">
       <PanelHeader icon={Radio} title="Comunicações satelitais" right={<span className="font-mono-tight text-[11px] text-primary">RTT Terra · {latency.toFixed(2)}s</span>} />
       <ul className="mt-3 space-y-2.5">
         {links.map((l) => (
@@ -493,7 +493,7 @@ function LifeSupportPanel({ resources }: { resources: Resource[] }) {
   }));
   const avg = resources.reduce((a, r) => a + r.level, 0) / resources.length;
   return (
-    <div className="panel relative overflow-hidden p-5">
+    <div className="panel relative flex h-full flex-col overflow-hidden p-5">
       <PanelHeader icon={Shield} title="Suporte à vida · síntese" right={<span className="text-[11px] text-muted-foreground">ECLSS v4.2</span>} />
       <div className="relative mt-2 h-64">
         <ResponsiveContainer width="100%" height="100%">
