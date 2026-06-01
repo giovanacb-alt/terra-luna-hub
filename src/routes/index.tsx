@@ -35,10 +35,13 @@ interface Resource {
 
 /* ---------- main component ---------- */
 function Dashboard() {
-  const [now, setNow] = useState(() => new Date());
+  const [now, setNow] = useState(() => new Date(0));
   const [tick, setTick] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    setNow(new Date());
     const id = setInterval(() => {
       setNow(new Date());
       setTick((t) => t + 1);
@@ -46,9 +49,9 @@ function Dashboard() {
     return () => clearInterval(id);
   }, []);
 
-  // simulated live drift
+  // simulated live drift — only after mount to avoid SSR/CSR hydration mismatch
   const drift = (seed: number, amp = 1) =>
-    Math.sin((tick + seed) / 6) * amp + (Math.random() - 0.5) * amp * 0.4;
+    mounted ? Math.sin((tick + seed) / 6) * amp + (Math.random() - 0.5) * amp * 0.4 : 0;
 
   const resources: Resource[] = useMemo(() => [
     {
