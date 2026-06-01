@@ -357,7 +357,7 @@ function Legend() {
 
 /* ---------- environment ---------- */
 function EnvironmentPanel({ tick }: { tick: number }) {
-  const radiation = clamp(38 + Math.sin(tick / 5) * 6 + Math.random() * 3, 0, 100);
+  const radiation = clamp(38 + Math.sin(tick / 5) * 6 + Math.sin(tick / 1.7) * 1.5, 0, 100);
   const surfaceTemp = -142 + Math.sin(tick / 8) * 6;
   const dust = clamp(12 + Math.sin(tick / 7) * 4, 0, 100);
   const solarFlux = clamp(72 + Math.sin(tick / 4) * 8, 0, 100);
